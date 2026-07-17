@@ -171,6 +171,19 @@
             border-radius: 8px;
         }
 
+        /* Ye ribbon ke upar ek chhota knot/bow add karega */
+.ribbon-bow {
+    position: absolute;
+    top: -25px; /* Box ke thoda upar */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 20px;
+    background: #dfba6b; /* Gold color */
+    border-radius: 5px;
+    z-index: 3; /* Lid ke upar dikhne ke liye */
+}
+        
         .ribbon-v, .ribbon-h { position: absolute; background: var(--gold-gradient); }
         .ribbon-v { left: 50%; top: 0; width: 24px; height: 100%; transform: translateX(-50%); }
         .ribbon-h { top: 50%; left: 0; height: 24px; width: 100%; transform: translateY(-50%); }
@@ -354,6 +367,12 @@
                     <div class="ribbon-v"></div>
                     <div class="ribbon-h"></div>
                 </div>
+                <div class="gift-lid">
+    <div class="lid-ribbon-v"></div>
+    <div class="lid-ribbon-h"></div>
+    <div class="ribbon-bow"></div> <!-- Ye line add karni hai -->
+                </div>
+                
             </div>
             <div class="instruction-text">Tap the box to open ✨</div>
         </div>
