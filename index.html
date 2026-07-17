@@ -7,106 +7,522 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
+            /* Luxury Romantic Theme Colors */
             --bg-dark: linear-gradient(135deg, #050003 0%, #1a000c 50%, #0d0006 100%);
             --bg-card: rgba(25, 10, 18, 0.75);
             --gold-primary: #dfba6b;
             --gold-gradient: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
             --text-light: #f5f5f5;
+            --text-muted: #d5b9c9;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { max-width: 100%; overflow-x: hidden; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             background: var(--bg-dark);
             background-attachment: fixed;
             font-family: 'Montserrat', sans-serif;
             color: var(--text-light);
+            overflow-x: hidden;
+            overflow-y: hidden; /* Box khulne tak scroll lock */
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
         }
-        #heartBgContainer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
-        .bg-heart { position: absolute; bottom: -20px; font-size: 20px; opacity: 0; animation: floatUp 6s linear infinite; }
-        @keyframes floatUp { 0% { transform: translateY(0) scale(0); opacity: 0; } 10% { opacity: 0.4; } 90% { opacity: 0.4; } 100% { transform: translateY(-105vh) scale(1.2); opacity: 0; } }
-        
-        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050003; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.5s; }
-        .loader-text { color: var(--gold-primary); font-size: 22px; font-weight: 600; margin-bottom: 20px; }
-        
-        .main-container { opacity: 0; transition: opacity 1s; text-align: center; width: 100%; max-width: 450px; padding: 20px; z-index: 2; }
-        #audioToggle { display: none; position: fixed; top: 20px; right: 20px; z-index: 10000; background: rgba(223, 186, 107, 0.25); border: 1px solid var(--gold-primary); color: var(--gold-primary); width: 45px; height: 45px; border-radius: 50%; cursor: pointer; backdrop-filter: blur(5px); }
-        
-        .gift-container { cursor: pointer; width: 160px; height: 160px; margin: 0 auto 30px; position: relative; }
-        .gift-box { width: 100%; height: 100%; background: #14020b; border: 2px solid var(--gold-primary); border-radius: 8px; }
-        .gift-lid { position: absolute; top: -10px; width: 170px; height: 40px; background: #210413; border: 2px solid var(--gold-primary); transition: 0.6s; }
+
+        /* 🌌 Background Floating Hearts Container */
+        #heartBgContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .bg-heart {
+            position: absolute;
+            bottom: -20px;
+            font-size: 20px;
+            opacity: 0;
+            animation: floatUp 6s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-105vh) scale(1.2) rotate(360deg); opacity: 0; }
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #050003;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader-text {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold-primary);
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+
+        .loader-line {
+            width: 150px;
+            height: 2px;
+            background: rgba(223, 186, 107, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loader-line::after {
+            content: '';
+            position: absolute;
+            left: -50%;
+            width: 50%;
+            height: 100%;
+            background: var(--gold-gradient);
+            animation: loading 1.5s infinite linear;
+        }
+
+        @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+        @keyframes loading { 0% { left: -50%; } 100% { left: 100%; } }
+
+        /* Main Content Wrap */
+        .main-container {
+            opacity: 0;
+            transition: opacity 1s ease;
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+            margin: auto;
+            z-index: 2; /* Content hearts ke upar rahega */
+        }
+
+        /* Floating Audio Control */
+        #audioToggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(223, 186, 107, 0.2);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-primary);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        /* Gift Box Section */
+        #boxSection {
+            width: 100%;
+            padding: 40px 0;
+        }
+
+        .gift-container {
+            cursor: pointer;
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 30px;
+            perspective: 600px;
+        }
+
+        .gift-box {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background: #14020b;
+            border: 2px solid var(--gold-primary);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            border-radius: 8px;
+        }
+
+        .ribbon-v, .ribbon-h { position: absolute; background: var(--gold-gradient); }
+        .ribbon-v { left: 50%; top: 0; width: 24px; height: 100%; transform: translateX(-50%); }
+        .ribbon-h { top: 50%; left: 0; height: 24px; width: 100%; transform: translateY(-50%); }
+
+        .gift-lid {
+            position: absolute;
+            top: -10px;
+            left: -5px;
+            width: 170px;
+            height: 40px;
+            background: #210413;
+            border: 2px solid var(--gold-primary);
+            border-radius: 4px;
+            z-index: 2;
+            transform-origin: bottom;
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .lid-ribbon-v, .lid-ribbon-h { position: absolute; background: var(--gold-gradient); }
+        .lid-ribbon-v { left: 50%; top: 0; width: 24px; height: 100%; transform: translateX(-50%); }
+        .lid-ribbon-h { top: 50%; left: 0; height: 24px; width: 100%; transform: translateY(-50%); }
+
         .gift-container:hover .gift-lid { transform: translateY(-5px) rotate(-5deg); }
 
-        .birthday-card { background: var(--bg-card); border: 1px solid rgba(223, 186, 107, 0.3); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
-        .long-message-box { background: rgba(255, 255, 255, 0.03); border-left: 3px solid var(--gold-primary); padding: 20px; text-align: left; }
-        
-        .polaroid { background: #ffffff; padding: 12px 12px 26px 12px; margin: 35px auto; width: 90%; max-width: 290px; }
-        .polaroid img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
-        .polaroid-caption { color: #1a1a1a; font-size: 14px; font-weight: 600; margin-top: 10px; }
+        .instruction-text {
+            font-size: 14px;
+            color: #bfa3b3;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 15px;
+            animation: bounce 2s infinite;
+            font-weight: 600;
+        }
+        @keyframes bounce { 0%, 100%, 20% { transform: translateY(0); } 40% { transform: translateY(-6px); } 60% { transform: translateY(-3px); } }
+
+        /* Main Surprise Wrapper */
+        #surpriseContent {
+            display: none;
+        }
+
+        /* Birthday Card Component */
+        .birthday-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(223, 186, 107, 0.3);
+            border-radius: 16px;
+            padding: 35px 25px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            margin-bottom: 30px;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            margin-bottom: 15px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .short-p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+
+        /* 💌 Personal Long Message Component */
+        .long-message-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid var(--gold-primary);
+            border-radius: 8px;
+            padding: 25px 20px;
+            margin: 35px 0;
+            text-align: left;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .long-message-box h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold-primary);
+            font-size: 19px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .long-message-box p {
+            font-size: 14.5px;
+            line-height: 1.8;
+            color: #ececec;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        /* 📸 Polaroid Photo Gallery Component */
+        .gallery-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold-primary);
+            font-size: 22px;
+            margin: 40px 0 20px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .polaroid-gallery {
+            width: 100%;
+            padding-bottom: 40px;
+        }
+
+        .polaroid {
+            background: #ffffff;
+            padding: 12px 12px 26px 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+            margin: 35px auto;
+            width: 92%;
+            max-width: 300px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            animation: fadeInUp 1.2s ease forwards;
+        }
+
+        /* Realistic Polaroid Scatter Look */
+        .polaroid:nth-child(1) { transform: rotate(-3deg); }
+        .polaroid:nth-child(2) { transform: rotate(3deg); }
+        .polaroid:nth-child(3) { transform: rotate(-1.5deg); }
+
+        .polaroid:hover {
+            transform: scale(1.04) rotate(0deg) !important;
+            box-shadow: 0 25px 50px rgba(223, 186, 107, 0.25);
+            z-index: 5;
+        }
+
+        .polaroid img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border: 1px solid #e0e0e0;
+        }
+
+        .polaroid-caption {
+            font-family: 'Playfair Display', serif;
+            color: #1a1a1a;
+            font-size: 14.5px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 14px;
+            font-style: italic;
+        }
+
+        .heart-footer {
+            color: #e74c3c;
+            font-size: 26px;
+            margin-top: 20px;
+            animation: beat 0.8s infinite alternate;
+        }
+
+        @keyframes beat { to { transform: scale(1.25); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Confetti Elements */
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: fly 1.2s ease-out forwards;
+            z-index: 10;
+            pointer-events: none;
+        }
+        @keyframes fly {
+            0% { transform: translate(-50%, -50%) translate(0, 0) rotate(0deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) translate(var(--x), var(--y)) rotate(360deg); opacity: 0; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- ✅ MUSIC FILE SET -->
-    <audio id="bgMusic" loop src="music.mp3"></audio>
+    <!-- 🎵 Background Music Track -->
+    <audio id="bgMusic" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
 
+    <!-- Floating Mute/Unmute Button -->
     <button id="audioToggle">🔊</button>
+
+    <!-- Floating Hearts Layer -->
     <div id="heartBgContainer"></div>
 
+    <!-- Preloader -->
     <div id="preloader">
-        <div class="loader-text">Loading...</div>
+        <div class="loader-text">Preparing Your Luxury Surprise...</div>
+        <div class="loader-line"></div>
     </div>
 
+    <!-- Main Container -->
     <div class="main-container" id="mainContent">
+        
+        <!-- Box Section (Entry Gate) -->
         <div id="boxSection">
             <div class="gift-container" id="giftBoxBtn">
-                <div class="gift-lid"></div>
-                <div class="gift-box"></div>
+                <div class="gift-lid">
+                    <div class="lid-ribbon-v"></div>
+                    <div class="lid-ribbon-h"></div>
+                </div>
+                <div class="gift-box">
+                    <div class="ribbon-v"></div>
+                    <div class="ribbon-h"></div>
+                </div>
             </div>
-            <p>Tap the box to open ✨</p>
+            <div class="instruction-text">Tap the box to open ✨</div>
         </div>
 
-        <div id="surpriseContent" style="display: none;">
+        <!-- Hidden Surprise Content -->
+        <div id="surpriseContent">
+            
+            <!-- Luxury Greeting Header -->
             <div class="birthday-card">
                 <h1>Happy Birthday My Love!</h1>
-                <p>May your day be filled with luxury, love, and unending smiles.</p>
+                <p class="short-p">May your day be filled with luxury, love, and unending smiles. You deserve the absolute best today and always.</p>
             </div>
+
+            <!-- 💌 Personal Sweet Message Section -->
             <div class="long-message-box">
                 <h2>To My Favorite Person,</h2>
-                <p>Happy Birthday to the one who makes my world infinitely brighter. You are my everything! ❤️</p>
+                <p>Happy Birthday to the one who makes my world infinitely brighter and so much more beautiful. Meeting you is the best thing that has ever happened to me, and every single day spent with you feels like a beautiful dream come true. ❤️</p>
+                <p>Thank you for being my constant support, my safest escape, and the reason behind my happiest smiles. Your love, your kindness, and the way you care for me is the greatest blessing I could ever ask for in life. You are truly my happiest place and my comfort zone.</p>
+                <p>On your special day, I promise to stand by you through every step of the way, sharing all your joy and laughing with you forever. I wish you a year filled with endless laughter, success, good health, and all the happiness in the world. Happy Birthday, my everything! 💞</p>
+                <p style="margin-top: 20px; font-weight: 600; color: var(--gold-primary);">With all my love, always. Forever yours. ❤️</p>
             </div>
+
+            <!-- 📸 Polaroid Photo Gallery Section -->
+            <h2 class="gallery-title">Our Beautiful Memories ✨</h2>
             <div class="polaroid-gallery">
-                <div class="polaroid"><img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=500"><div class="polaroid-caption">Best moments ❤️</div></div>
+                
+                <!-- Photo 1 -->
+                <div class="polaroid">
+                    <!-- 💡 APNI SAFE LINK YAHAN PASTE KAREIN -->
+                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=500" alt="Memory 1">
+                    <div class="polaroid-caption">The day we met... ❤️</div>
+                </div>
+
+                <!-- Photo 2 -->
+                <div class="polaroid">
+                    <!-- 💡 APNI SAFE LINK YAHAN PASTE KAREIN -->
+                    <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=500" alt="Memory 2">
+                    <div class="polaroid-caption">Every moment with you is luxury ✨</div>
+                </div>
+
+                <!-- Photo 3 -->
+                <div class="polaroid">
+                    <!-- 💡 APNI SAFE LINK YAHAN PASTE KAREIN -->
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500" alt="Memory 3">
+                    <div class="polaroid-caption">Happiest Birthday! 💞</div>
+                </div>
+
             </div>
+
+            <div class="heart-footer">❤</div>
         </div>
     </div>
 
     <script>
-        window.addEventListener('load', () => {
-            document.getElementById('preloader').style.opacity = '0';
-            setTimeout(() => document.getElementById('preloader').style.display = 'none', 500);
-            document.getElementById('mainContent').style.opacity = '1';
-        });
+        // SAFETY SWITCH: Hide preloader after max 2.5s
+        const hideLoader = () => {
+            const loader = document.getElementById('preloader');
+            const content = document.getElementById('mainContent');
+            if (loader && loader.style.opacity !== '0') {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    content.style.opacity = '1';
+                }, 500);
+            }
+        };
+        window.addEventListener('load', hideLoader);
+        setTimeout(hideLoader, 2500);
 
+        // Ambient Background Hearts Generator
+        function createBackgroundHearts() {
+            const container = document.getElementById('heartBgContainer');
+            const heartIcons = ['❤️', '💖', '✨', '💕', '💛'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('bg-heart');
+                heart.innerHTML = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+                
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = Math.random() * 3 + 4 + 's'; // 4s to 7s
+                heart.style.fontSize = Math.random() * 15 + 15 + 'px'; // 15px to 30px
+                
+                container.appendChild(heart);
+                
+                setTimeout(() => { heart.remove(); }, 7000);
+            }, 600); // New heart every 600ms
+        }
+
+        // Core Interaction
         const boxBtn = document.getElementById('giftBoxBtn');
+        const boxSection = document.getElementById('boxSection');
+        const surpriseContent = document.getElementById('surpriseContent');
         const bgMusic = document.getElementById('bgMusic');
         const audioToggle = document.getElementById('audioToggle');
 
-        boxBtn.addEventListener('click', () => {
-            bgMusic.play().catch(e => console.log("Play failed", e));
-            audioToggle.style.display = 'flex';
-            document.getElementById('boxSection').style.display = 'none';
-            document.getElementById('surpriseContent').style.display = 'block';
-        });
+        if(boxBtn) {
+            boxBtn.addEventListener('click', () => {
+                // 🎵 Play Music & Show Toggle Button
+                bgMusic.play().catch(e => console.log("Autoplay handled", e));
+                audioToggle.style.display = 'flex';
 
-        audioToggle.addEventListener('click', () => {
-            if (bgMusic.paused) { bgMusic.play(); audioToggle.innerHTML = '🔊'; }
-            else { bgMusic.pause(); audioToggle.innerHTML = '🔇'; }
-        });
+                // 🌌 Start Floating Hearts Background
+                createBackgroundHearts();
+
+                // 🎉 Confetti Blast Effect
+                for (let i = 0; i < 75; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    const colors = ['#dfba6b', '#bf953f', '#fcf6ba', '#e74c3c', '#ffffff'];
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = 70 + Math.random() * 200;
+                    confetti.style.setProperty('--x', `${Math.cos(angle) * distance}px`);
+                    confetti.style.setProperty('--y', `${Math.sin(angle) * distance}px`);
+                    
+                    confetti.style.left = '50%';
+                    confetti.style.top = '50%';
+                    boxBtn.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 1200);
+                }
+
+                // 🎬 Smooth Layout Switch
+                boxBtn.style.transform = 'scale(0.85)';
+                setTimeout(() => {
+                    boxSection.style.display = 'none';
+                    surpriseContent.style.display = 'block';
+                    document.body.style.overflowY = 'auto'; // Enable scrolling
+                }, 400);
+            });
+        }
+
+        // 🔊 Sound Control Button
+        if(audioToggle) {
+            audioToggle.addEventListener('click', () => {
+                if (bgMusic.paused) {
+                    bgMusic.play();
+                    audioToggle.innerHTML = '🔊';
+                    audioToggle.style.background = 'rgba(223, 186, 107, 0.2)';
+                } else {
+                    bgMusic.pause();
+                    audioToggle.innerHTML = '🔇';
+                    audioToggle.style.background = 'rgba(255, 0, 0, 0.1)';
+                }
+            });
+        }
     </script>
 </body>
 </html>
