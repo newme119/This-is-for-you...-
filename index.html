@@ -231,8 +231,10 @@
             border: 2px solid var(--gold-primary);
             border-radius: 4px;
             z-index: 2;
-            transform-origin: bottom;
-            transition:transform 1s cubic-bezier(.22,.61,.36,1),box-shadow .6s ease;      
+            transform-origin: center bottom;
+            transition:transform 1s cubic-bezier(.22,.61,.36,1),box-shadow .6s ease; 
+            backface-visibility:hidden;
+            will-change:transform;
         }
         
         .lid-ribbon-v, .lid-ribbon-h { position: absolute; background: var(--gold-gradient); }
@@ -641,8 +643,7 @@ const lid = document.querySelector(".gift-lid");
 
 if (lid) {
     lid.style.transition = "transform 1s cubic-bezier(.22,.61,.36,1)";
-    lid.style.transform = "translateY(-140px) rotate(-25deg)";
-}
+    lid.style.transform ="translate(-40px,-180px) rotate(-55deg) scale(1.05)";
 
 boxBtn.style.transition = "transform .8s ease";
 boxBtn.style.transform = "scale(.9)";
