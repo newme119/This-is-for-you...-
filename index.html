@@ -220,17 +220,22 @@
 
         .gift-container:hover .gift-lid { transform: translateY(-5px) rotate(-5deg); }
 . instruction-text{
-    color: #ffd700; /* Rich Gold color */
+    /* Rich Deep Gold Color */
+    color: #FFD700; 
+    
     font-family: 'Playfair Display', serif;
     font-size: 20px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
-    margin-top: 20px;
     
-    /* Magical Pulse Animation */
-    animation: pulse 1.5s infinite ease-in-out;
+    /* Font ko aur BOLD karne ke liye */
+    font-weight: 800; 
+    
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    
+    /* Text ko pop-up karne ke liye shadow */
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.5);
+    
+    margin-top: 20px;
     cursor: pointer;
 }
 
@@ -256,23 +261,22 @@
 
         .h1{
              font-family: 'Playfair Display', serif;
-    font-size: 28px; /* Thoda adjust kiya taaki mobile ki screen par fit ho jaye */
-    font-weight: 700;
+    font-size: 26px;
+    font-weight: 800;
     text-align: center;
     margin-bottom: 25px;
-    
-    /* Gold Metallic Gradient */
-    background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+    white-space: nowrap; /* Ye guarantee karega ki ek hi line mein rahe */
+    text-transform: capitalize;
+
+    /* Vibrant Gold Gradient */
+    background: linear-gradient(to right, #FFD700, #FFFACD, #FF8C00);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent; /* Text ko transparent banate hain taaki gradient dikhe */
     
-    /* Ek hi line mein rakhne ke liye */
-    white-space: nowrap; 
-    
-    /* Text shadow for better visibility */
-    filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.5));
+    /* Premium Look */
+    filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.6));
         }
-    
         
 
         .short-p { font-size: 15px; line-height: 1.6; color: var(--text-light); }
@@ -409,7 +413,7 @@
                 </div>
                 
             </div>
-            <div class="instruction-text">Tap the box to open ✨</div>
+            <div class="instruction-text">CLICK TO UNWRAP YOUR SURPRISE ✨</div>
         </div>
 
         <div id="surpriseContent">
