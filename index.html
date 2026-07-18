@@ -483,21 +483,23 @@
     </div>
 
     <script>
-    // 1. Scroll-triggered Parallax Zoom Effect (Fix for 2nd image)
+    // 1. Scroll-triggered Parallax Zoom (Enhanced for Up & Down)
     window.addEventListener('load', () => {
         const observerOptions = {
             root: null,
-            rootMargin: '-10% 0px -10% 0px', 
-            threshold: 0.1 
+            rootMargin: '-10% 0px -10% 0px', // Dono directions ke liye sensitive
+            threshold: 0.1
         };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 const polaroid = entry.target;
                 if (entry.isIntersecting) {
+                    // Active karo
                     document.querySelectorAll('.polaroid').forEach(p => p.classList.remove('active', 'inactive'));
                     polaroid.classList.add('active');
                 } else {
+                    // Inactive karo
                     polaroid.classList.remove('active');
                     polaroid.classList.add('inactive');
                 }
@@ -566,7 +568,7 @@
             }, 400);
         });
     }
-    </script>
+ </script>
     
     
 </body>
