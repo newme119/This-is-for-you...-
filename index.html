@@ -488,11 +488,6 @@ transform:scale(1.4);
                     <div class="ribbon-v"></div>
                     <div class="ribbon-h"></div>
                 </div>
-                <div class="gift-lid">
-    <div class="lid-ribbon-v"></div>
-    <div class="lid-ribbon-h"></div>
-    <div class="ribbon-bow"></div> <!-- Ye line add karni hai -->
-                </div>
                 
             </div>
             <div class="instruction-text">CLICK TO UNWRAP YOUR SURPRISE ✨</div>
@@ -644,6 +639,7 @@ const lid = document.querySelector(".gift-lid");
 if (lid) {
     lid.style.transition = "transform 1s cubic-bezier(.22,.61,.36,1)";
     lid.style.transform ="translate(-40px,-180px) rotate(-55deg) scale(1.05)";
+}
 
 boxBtn.style.transition = "transform .8s ease";
 boxBtn.style.transform = "scale(.9)";
@@ -681,10 +677,13 @@ setTimeout(() => {
 
     document.body.style.overflowY="auto";
 
-},1400);
-        });
-    }
-    </script>
+}, 1400);
+
+} // if (lid) close
+
+}); // click event close
+
+} // if(boxBtn) close
     
     
     
