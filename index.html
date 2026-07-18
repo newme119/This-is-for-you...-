@@ -425,7 +425,38 @@ box-shadow:
             animation: fly 1.2s ease-out forwards;
             z-index: 10;
             pointer-events: none;
-        }
+         }
+
+        .flash-effect{
+    position:fixed;
+    inset:0;
+    background:radial-gradient(circle,
+    rgba(255,235,170,.95) 0%,
+    rgba(223,186,107,.45) 35%,
+    rgba(0,0,0,0) 75%);
+    opacity:0;
+    pointer-events:none;
+    z-index:9998;
+    animation:goldFlash .45s ease-out forwards;
+}
+
+@keyframes goldFlash{
+
+0%{
+opacity:0;
+transform:scale(.8);
+}
+
+30%{
+opacity:1;
+}
+
+100%{
+opacity:0;
+transform:scale(1.4);
+}
+
+}
         @keyframes fly {
             0% { transform: translate(-50%, -50%) translate(0, 0) rotate(0deg); opacity: 1; }
             100% { transform: translate(-50%, -50%) translate(var(--x), var(--y)) rotate(360deg); opacity: 0; }
@@ -579,6 +610,17 @@ window.addEventListener("resize", updatePolaroids);
         boxBtn.addEventListener('click', () => {
             if(bgMusic) bgMusic.play().catch(e => console.log("Autoplay handled", e));
             createBackgroundHearts();
+            const flash=document.createElement("div");
+
+flash.className="flash-effect";
+
+document.body.appendChild(flash);
+
+setTimeout(()=>{
+
+flash.remove();
+
+},500);
             for (let i = 0; i < 75; i++) {
                 const confetti = document.createElement('div');
                 confetti.classList.add('confetti');
