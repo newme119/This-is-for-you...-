@@ -177,6 +177,8 @@
             height: 160px;
             margin: 0 auto 30px;
             perspective: 600px;
+            transform-style: preserve-3d;
+            will-change: transform;
         }
 
         .gift-box {
@@ -230,8 +232,9 @@
             border-radius: 4px;
             z-index: 2;
             transform-origin: bottom;
-            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition:transform 1s cubic-bezier(.22,.61,.36,1),box-shadow .6s ease;      
         }
+        
         .lid-ribbon-v, .lid-ribbon-h { position: absolute; background: var(--gold-gradient); }
         .lid-ribbon-v { left: 50%; top: 0; width: 24px; height: 100%; transform: translateX(-50%); }
         .lid-ribbon-h { top: 50%; left: 0; height: 24px; width: 100%; transform: translateY(-50%); }
@@ -590,12 +593,52 @@ window.addEventListener("resize", updatePolaroids);
                 boxBtn.appendChild(confetti);
                 setTimeout(() => confetti.remove(), 1200);
             }
-            boxBtn.style.transform = 'scale(0.85)';
-            setTimeout(() => {
-                if(boxSection) boxSection.style.display = 'none';
-                if(surpriseContent) surpriseContent.style.display = 'block';
-                document.body.style.overflowY = 'auto';
-            }, 400);
+            // Premium Gift Opening Animation
+
+const lid = document.querySelector(".gift-lid");
+
+if (lid) {
+    lid.style.transition = "transform 1s cubic-bezier(.22,.61,.36,1)";
+    lid.style.transform = "translateY(-140px) rotate(-25deg)";
+}
+
+boxBtn.style.transition = "transform .8s ease";
+boxBtn.style.transform = "scale(.9)";
+boxBtn.animate([
+    { transform: "scale(.9) rotate(0deg)" },
+    { transform: "scale(.92) rotate(-2deg)" },
+    { transform: "scale(.9) rotate(2deg)" },
+    { transform: "scale(.9) rotate(0deg)" }
+], {
+    duration: 450,
+    iterations: 1
+});
+setTimeout(() => {
+
+    boxSection.style.opacity = "0";
+
+    boxSection.style.transition = "opacity .8s ease";
+
+},700);
+
+setTimeout(() => {
+
+    boxSection.style.display = "none";
+    surpriseContent.style.display = "block";
+    surpriseContent.style.opacity = "0";
+    surpriseContent.style.transform = "translateY(40px)";
+    surpriseContent.style.transition =
+    "opacity 1s ease, transform 1s ease";
+
+    requestAnimationFrame(()=>{
+       surpriseContent.style.opacity="1";
+       surpriseContent.style.transform="translateY(0)";
+
+    });
+
+    document.body.style.overflowY="auto";
+
+},1400);
         });
     }
     </script>
