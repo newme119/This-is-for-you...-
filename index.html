@@ -92,12 +92,16 @@
             overflow: hidden;
         }
 
-        .bg-heart {
-            position: absolute;
-            bottom: -20px;
-            font-size: 20px;
-            opacity: 0;
-            animation: floatUp 6s linear infinite;
+        .bg-heart{
+    position:absolute;
+    bottom:-20px;
+    opacity:0;
+    animation:floatUp 6s linear infinite;
+
+    color:#FFD700;
+    font-weight:700;
+    white-space:nowrap;
+    text-shadow:0 0 10px rgba(255,215,0,.35);
         }
 
         @keyframes floatUp {
@@ -470,6 +474,30 @@ transform:scale(1.4);
             100% { transform: translate(-50%, -50%) translate(var(--x), var(--y)) rotate(360deg); opacity: 0; }
         }
 
+        .footer-love{
+
+margin-top:20px;
+
+font-size:15px;
+
+line-height:1.8;
+
+color:#d9d9d9;
+
+font-family:'Playfair Display',serif;
+
+letter-spacing:1px;
+
+}
+
+.footer-love strong{
+
+color:#FFD700;
+
+font-size:18px;
+
+}
+
 
     </style>
 </head>
@@ -532,7 +560,13 @@ transform:scale(1.4);
                 </div>
             </div>
 
-            <div class="heart-footer">❤</div>
+            <div class="heart-footer">❤️
+                <div class="footer-love">From Your Lovely Wife
+                    <br>
+                       <strong>Afiya ❤️</strong>
+                </div>
+
+            </div>
 
 </div>
 </div>
@@ -637,7 +671,7 @@ window.addEventListener("resize", updatePolaroids);
     // 3. Background Hearts Logic
     function createBackgroundHearts() {
         const container = document.getElementById('heartBgContainer');
-        const heartIcons = ['❤️', '💖', '✨', '💕', '💛'];
+        const heartIcons = ['❤️','💖','✨','💕','💛','Maaz ❤️','A ❤️ M'];
         setInterval(() => {
             const heart = document.createElement('div');
             heart.classList.add('bg-heart');
