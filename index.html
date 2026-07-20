@@ -593,7 +593,7 @@ function updatePolaroids() {
         const rect = card.getBoundingClientRect();
         const cardCenter = rect.top + rect.height / 2;
         const distance = Math.abs(screenCenter - cardCenter);
-        const progress = Math.max(0, 1 - distance / 620);
+        const progress = Math.max(0, 1 - distance / 720);
 
         if (progress > 0.80) {
 
