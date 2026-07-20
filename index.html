@@ -592,41 +592,45 @@ function updatePolaroids() {
 
         const rect = card.getBoundingClientRect();
         const cardCenter = rect.top + rect.height / 2;
-        const distance = Math.abs(screenCenter - cardCenter);
-        const trigger = window.innerHeight * 0.95;
-const progress = Math.max(0, 1 - distance / trigger);
 
-       if (progress > 0.55) {
-              card.classList.add("active");
-              card.classList.remove("inactive");
-       } 
-       else {
-             card.classList.remove("active");
-             card.classList.add("inactive");
-       }
-    }
+        const distance = Math.abs(screenCenter - cardCenter);
+
+        // Responsive trigger
+        const trigger = window.innerHeight * 0.95;
+        const progress = Math.max(0, 1 - distance / trigger);
+
+        if (progress > 0.55) {
+            card.classList.add("active");
+            card.classList.remove("inactive");
+        } else {
+            card.classList.remove("active");
+            card.classList.add("inactive");
+        }
+
+    });
+
+} // <-- Ye function close karna zaroori hai
+
 let scrollTick = false;
 
-window.addEventListener("scroll",()=>{
+window.addEventListener("scroll", () => {
 
-    if(!scrollTick){
+    if (!scrollTick) {
 
-        requestAnimationFrame(()=>{
+        requestAnimationFrame(() => {
 
             updatePolaroids();
-            scrollTick=false;
+            scrollTick = false;
 
         });
 
-        scrollTick=true;
+        scrollTick = true;
     }
 
 });
 
 window.addEventListener("load", updatePolaroids);
-
 window.addEventListener("resize", updatePolaroids);
-
     // 2. Preloader Logic
     const hideLoader = () => {
         const loader = document.getElementById('preloader');
